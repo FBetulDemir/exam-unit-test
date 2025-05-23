@@ -5,9 +5,28 @@
 // 4. refactor as neccessary before you move on to the next
 // 5. repeat
 
-function isCartItem(maybeCartItem) {}
+function isCartItem(maybeCartItem) {
+    const hasId = typeof maybeCartItem.id === 'number';
+    const hasAmount = typeof maybeCartItem.amount === 'number';
+    const hasItem = isProduct(maybeCartItem.item);
+    if (typeof maybeCartItem !== 'object' || maybeCartItem === null) {
+        return false;
+    }
 
-function isProduct(maybeProduct) {}
+    return hasId && hasAmount && hasItem;
+
+}
+
+function isProduct(maybeProduct) {
+    const hasId = typeof maybeProduct.id === 'number';
+    const hasName = typeof maybeProduct.name === 'string';
+    const hasPrice = typeof maybeProduct.price === 'number';
+    if (typeof maybeProduct !== 'object' || maybeProduct === null) {
+        return false;
+    }
+
+    return hasId && hasName && hasPrice;
+}
 
 
 export { isCartItem, isProduct }
