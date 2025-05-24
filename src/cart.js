@@ -41,7 +41,7 @@ function getItem(index){
 
 function addToCart(newItem) {
 	if( !isProduct(newItem) ) {
-		throw new Error('This is not a valid product.')
+		throw new Error('This is an invalid product. id should be number, name should be string and price should be number.')
 	}
 
 	const cartItem = { id: idCounter++, amount: 1, item: newItem }
@@ -51,9 +51,12 @@ function addToCart(newItem) {
 
 
 
-function removeFromCart(itemId){
+function removeFromCart(item){
 	if ( cart.length === 0){
 		throw new Error('You have no items in your cart')
+	}
+	if (!isCartItem(item)){
+		throw new Error('This item is not in your cart')
 	}
 
 	const index = cart.findIndex(cartItem => cartItem.id === itemId)
@@ -70,4 +73,4 @@ function clearCart(){
 
 
 
-export { getCartItemCount, addToCart, clearCart, getItem }
+export { getCartItemCount, addToCart, clearCart, getItem, removeFromCart }

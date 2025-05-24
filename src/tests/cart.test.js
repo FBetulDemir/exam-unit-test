@@ -1,5 +1,4 @@
-// importera här
-import { addToCart, getCartItemCount, clearCart, getItem } from "../cart"
+import { addToCart, getCartItemCount, clearCart, getItem, removeFromCart } from "../cart"
 
 
 describe('Cart', () => {
@@ -9,10 +8,6 @@ describe('Cart', () => {
 	})
 
 
-	// -------------------------------------------------- //
-	// Skriv dina testfall här
-
-	// Du får ett test att börja med
 	describe('addToCart', () =>{
 		test('addToCart adds new product to the cart.', () => {
 			const itemCountBefore = getCartItemCount()
@@ -27,14 +22,15 @@ describe('Cart', () => {
 
 			expect(itemCountAfter).toBe(itemCountBefore + 1)
 			expect(cartItem).toMatchObject({
-				id: expect.toBe(typeof(Number)),
+				id: expect.any(Number),
 				amount: 1,
 				item: input
       		});
 		})
+		
 		test('Throws an error message if the product is invalid.', () => {
 			const newProduct = {
-				id: isProduct,
+				id: 'not a number, it is a string',
 				name: 1234,
 				price: 'hej',
 			}
@@ -53,20 +49,35 @@ describe('Cart', () => {
 				price: 40 
 			}
 
-			const exampleCartObject = {
-				id: 2001,
-				amount: 1,
-				item: input,
-			}
+			// const cartObject = {
+			// 	id: 2001,
+			// 	amount: 1,
+			// 	item: input,
+			// }
 
-			addToCart(exampleCartObject)
-			const item = getItem(0)
-			expect(item).toEqual(input)
+			addToCart(input)
+			const cartObject = getItem(0)
+			expect(cartObject.item).toEqual(input)
 		})
 	})	
+	describe('removeFromCart', () => {
+		test('removeFromCart removes an item from the cart', () => {
+			const itemCountBefore = getCartItemCount()
+			const input = { 
+				id: 1002, 
+				name: 'Vattenpistol', 
+				price: 40 
+			}
+			addToCart(input)
+			removeFromCart(input.id)
+			const itemCountAfter = getCartItemCount();
+			
+		})
+		test('Throws an error message if the product does not exist in the cart.', () => {
+			expect(()=> removeFromCart(555555555)).toThrow('This is an invalid product id')
+		})
+	})
 
-
-	// -------------------------------------------------- //
 })
 
 
