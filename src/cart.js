@@ -28,19 +28,46 @@ let idCounter = 2002
 // Du får en funktion att börja med
 
 function getCartItemCount() {
-	throw new Error('TODO')
+	return cart.length
 }
+
+function getItem(index){
+	if (typeof index !== 'number' || index < 0 || index >= cart.length) {
+		throw new Error('Index does not exist.');
+	}
+	return cart[index]
+}
+
 
 function addToCart(newItem) {
 	if( !isProduct(newItem) ) {
-		return false
+		throw new Error('This is not a valid product.')
 	}
 
-	const cartItem = { id: idCounter, amount: 1, item: newItem }
-	idCounter++
+	const cartItem = { id: idCounter++, amount: 1, item: newItem }
 	cart.push(cartItem)
+	return cartItem
 }
 
 
 
-export { getCartItemCount, addToCart }
+function removeFromCart(itemId){
+	if ( cart.length === 0){
+		throw new Error('You have no items in your cart')
+	}
+
+	const index = cart.findIndex(cartItem => cartItem.id === itemId)
+	if (index === -1) {
+		throw new Error('Item not found in cart')
+	}
+	cart.splice(index, 1)
+}
+
+function clearCart(){
+	cart.length = 0
+	idCounter = 2002
+}
+
+
+
+export { getCartItemCount, addToCart, clearCart, getItem }
