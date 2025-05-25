@@ -51,19 +51,21 @@ function addToCart(newItem) {
 
 
 
-function removeFromCart(item){
+function removeFromCart(itemId){
 	if ( cart.length === 0){
 		throw new Error('You have no items in your cart')
 	}
-	if (!isCartItem(item)){
-		throw new Error('This item is not in your cart')
+	// if (!isCartItem(item)){
+	// 	throw new Error('This item is not in your cart')
+	// }
+
+	const exists = cart.some(cartItem => cartItem.id === itemId);
+
+	if (!exists) {
+		throw new Error('Item not found in cart.');
 	}
 
-	const index = cart.findIndex(cartItem => cartItem.id === itemId)
-	if (index === -1) {
-		throw new Error('Item not found in cart')
-	}
-	cart.splice(index, 1)
+	cart = cart.filter(cartItem => cartItem.id !== itemId);
 }
 
 function clearCart(){

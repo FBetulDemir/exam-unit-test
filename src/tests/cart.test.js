@@ -68,14 +68,27 @@ describe('Cart', () => {
 				name: 'Vattenpistol', 
 				price: 40 
 			}
-			addToCart(input)
-			removeFromCart(input.id)
+			const inputAdded = addToCart(input)
+			removeFromCart(inputAdded.id)
 			const itemCountAfter = getCartItemCount();
+
+			expect(itemCountAfter).toBe(itemCountBefore)
 			
 		})
 		test('Throws an error message if the product does not exist in the cart.', () => {
-			expect(()=> removeFromCart(555555555)).toThrow('This is an invalid product id')
+			const input = { 
+				id: 1002, 
+				name: 'Vattenpistol', 
+				price: 40 
+			}
+			const inputAdded = addToCart(input)
+			expect(()=> removeFromCart(55555555555)).toThrow('Item not found in cart.')
 		})
+
+		test('throws error if the cart is empty', () => {
+			clearCart();
+			expect(() => removeFromCart(2001)).toThrow('You have no items in your cart');
+		});
 	})
 
 })
