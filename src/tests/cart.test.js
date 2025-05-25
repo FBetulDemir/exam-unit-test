@@ -82,6 +82,8 @@ describe('Cart', () => {
 				price: 40 
 			}
 			const inputAdded = addToCart(input)
+			// expect(()=> removeFromCart(inputAdded.id).tobe(cart.length=0)
+			expect(() => removeFromCart(inputAdded.id)).toThrow('Item not found in cart.');
 			expect(()=> removeFromCart(55555555555)).toThrow('Item not found in cart.')
 		})
 
@@ -100,11 +102,17 @@ describe('Cart', () => {
 			}
 			const inputAdded = addToCart(input)
 			
-			const updatedInput = editCart(1002, {amount: 2, item: {price: 100}})
+			editCart(inputAdded.id, {amount: 2, item: {price: 100, name: "Barn pool", }})
+			const updatedInput = getItem(0)
 
 			expect(updatedInput.amount).toBe(2)
 			expect(updatedInput.item.price).toBe(100)
+			expect(updatedInput.item.name).toBe('Barn pool')
 		})
+
+		test('throws an error if item is not found', () => {
+			expect(() => editCart(9999, { amount: 2 })).toThrow('Item not found in cart.');
+		});
 	})
 
 })
