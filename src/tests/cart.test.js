@@ -1,4 +1,4 @@
-import { addToCart, getCartItemCount, clearCart, getItem, removeFromCart } from "../cart"
+import { addToCart, getCartItemCount, clearCart, getItem, removeFromCart, editCart } from "../cart"
 
 
 describe('Cart', () => {
@@ -89,6 +89,22 @@ describe('Cart', () => {
 			clearCart();
 			expect(() => removeFromCart(2001)).toThrow('You have no items in your cart');
 		});
+	})
+
+	describe('editCart', ()=> {
+		test('updates the item in the cart', ()=>{
+			const input = { 
+				id: 1002, 
+				name: 'Vattenpistol', 
+				price: 40 
+			}
+			const inputAdded = addToCart(input)
+			
+			const updatedInput = editCart(1002, {amount: 2, item: {price: 100}})
+
+			expect(updatedInput.amount).toBe(2)
+			expect(updatedInput.item.price).toBe(100)
+		})
 	})
 
 })
