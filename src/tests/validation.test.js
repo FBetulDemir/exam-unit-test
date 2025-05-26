@@ -1,3 +1,4 @@
+import { clearCart } from "../cart.js"
 import { isCartItem, isProduct } from "../validation.js"
 // Examples of a valid product and a valid cart item. You may use these when testing below.
 // const exampleProduct = {
@@ -24,6 +25,15 @@ describe('isProduct', () => {
 
 		expect(expected).toBe(true)
 	})
+
+	test('isProduct returns false for invalid product', () => {
+		const notProduct = {
+			id: 'text',
+			name: 5,
+			price: null
+		}
+		expect(isProduct(notProduct)).toBe(false);
+	});
 })
 
 describe('isCartItem', () => {
@@ -43,5 +53,19 @@ describe('isCartItem', () => {
 
 		expect(expected).toBe(true)
 	})
+
+	test('isCartItem returns false for invalid cart object', () => {
+		const notProduct = {
+			id: 'text',
+			name: 5,
+			price: null
+		}
+		const notCartObject = {
+			id: 'text',
+			amount: 'another text',
+			item: notProduct
+		}
+		expect(isCartItem(notCartObject)).toBe(false);
+	});	
 
 })
