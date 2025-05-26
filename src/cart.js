@@ -10,12 +10,6 @@ Tips:
 */
 
 
-// function getTotalCartValue()
-
-
-
-
-// -------------------------------------------------- //
 
 import { isCartItem, isProduct } from "./validation.js"
 
@@ -67,6 +61,9 @@ function removeFromCart(itemId){
 }
 
 
+
+
+
 // function clearCart()
 function clearCart(){
 	cart.length = 0
@@ -75,27 +72,59 @@ function clearCart(){
 
 
 // function editCart(itemId, newValues)
-function editCart(itemId, newValues){
-	const exists = cart.some(cartItem => cartItem.id === itemId);
+// function editCart(itemId, newValues){
+// 	const exists = cart.some(cartItem => cartItem.id === itemId);
+// 	const index = cart.findIndex(cartItem => cartItem.id === itemId);
+
+// 	if (!exists) {
+// 		throw new Error('Item not found in cart.');
+// 	}
+
+// 	const newItem = {
+// 		id: newValues.id || cart[index].id,
+// 		amount: newValues.amount || cart[index].amount,
+// 		item: {
+// 			id: newValues.id || cart[index].item.id,
+// 			name: newValues.name || cart[index].item.name,
+// 			price: newValues.price || cart[index].item.price
+// 		}
+// 	};
+
+// 	cart[index] = newItem;
+// }
+
+function editCart(itemId, newValues) {
 	const index = cart.findIndex(cartItem => cartItem.id === itemId);
 
-	if (!exists) {
+	if (index === -1) {
 		throw new Error('Item not found in cart.');
 	}
 
-	const newItem = {
-		id: newValues.id || cart[index].id,
-		amount: newValues.amount || cart[index].amount,
+	cart[index] = {
+		...cart[index],
+		...newValues,
 		item: {
-			id: newValues.id || cart[index].item.id,
-			name: newValues.name || cart[index].item.name,
-			price: newValues.price || cart[index].item.price
+			...cart[index].item,
+			...(newValues.item || {})
 		}
 	};
-
-	cart[index] = newItem;
 }
 
 
 
-export { getCartItemCount, addToCart, clearCart, getItem, removeFromCart, editCart }
+// function getTotalCartValue()
+function getTotalCartValue() {
+	let total = 0;
+
+	for (let i = 0; i < cart.length; i++) {
+		const cartItem = cart[i];
+		total += cartItem.amount * cartItem.item.price;
+	}
+
+	return total;
+}
+
+
+
+
+export { getCartItemCount, addToCart, clearCart, getItem, removeFromCart, editCart, getTotalCartValue }

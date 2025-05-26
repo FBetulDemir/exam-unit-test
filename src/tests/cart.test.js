@@ -1,4 +1,4 @@
-import { addToCart, getCartItemCount, clearCart, getItem, removeFromCart, editCart } from "../cart"
+import { addToCart, getCartItemCount, clearCart, getItem, removeFromCart, editCart, getTotalCartValue } from "../cart"
 
 
 describe('Cart', () => {
@@ -82,8 +82,6 @@ describe('Cart', () => {
 				price: 40 
 			}
 			const inputAdded = addToCart(input)
-			// expect(()=> removeFromCart(inputAdded.id).tobe(cart.length=0)
-			expect(() => removeFromCart(inputAdded.id)).toThrow('Item not found in cart.');
 			expect(()=> removeFromCart(55555555555)).toThrow('Item not found in cart.')
 		})
 
@@ -110,9 +108,36 @@ describe('Cart', () => {
 			expect(updatedInput.item.name).toBe('Barn pool')
 		})
 
+		test('throws error if the cart is empty', () => {
+			clearCart();
+			expect(() => removeFromCart(55555555)).toThrow('You have no items in your cart');
+		});
+
+
 		test('throws an error if item is not found', () => {
+			clearCart();
+			const input = { 
+				id: 1002, 
+				name: 'Vattenpistol', 
+				price: 40 
+			};
+			addToCart(input);
 			expect(() => editCart(9999, { amount: 2 })).toThrow('Item not found in cart.');
 		});
+	})
+
+
+	describe('getTotalCartValue', ()=>{
+		test('calculates the total price of the items in the cart', ()=>{
+			clearCart();
+			const input = { 
+				id: 1002, 
+				name: 'Vattenpistol', 
+				price: 40 
+			};
+			addToCart(input);
+			expect(getTotalCartValue()).toBe(40);
+		})
 	})
 
 })
