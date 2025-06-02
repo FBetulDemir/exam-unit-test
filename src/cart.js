@@ -19,7 +19,7 @@ let idCounter = 2002
 
 // function getCartItemCount()
 function getCartItemCount() {
-	return cart.length
+  return cart.reduce((count, item) => count + item.amount, 0);
 }
 
 // function getItem(index)
@@ -36,9 +36,21 @@ function addToCart(newItem) {
 		throw new Error('This is an invalid product. id should be number, name should be string and price should be number.')
 	}
 
-	const cartItem = { id: idCounter++, amount: 1, item: newItem }
-	cart.push(cartItem)
-	return cartItem
+	// const cartItem = { id: idCounter++, amount: 1, item: newItem }
+	// cart.push(cartItem)
+	// return cartItem
+
+	const index = cart.findIndex(ci => ci.item.id === newItem.id);
+	if (index === -1) {
+		const cartItem = { id: idCounter++, amount: 1, item: newItem }
+		cart.push(cartItem)
+		return cartItem
+	} else {
+		cart[index].amount++
+		return cart[index]
+	}
+
+
 }
 
 
