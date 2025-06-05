@@ -128,7 +128,7 @@ describe('Cart', () => {
 
 		test('throws error if the cart is empty', () => {
 			clearCart();
-			expect(() => removeFromCart(55555555)).toThrow('You have no items in your cart');
+			expect(() => editCart(55555555)).toThrow('Item not found in cart.');
 		});
 
 
