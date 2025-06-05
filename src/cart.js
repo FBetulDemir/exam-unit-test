@@ -32,9 +32,14 @@ function getItem(index){
 
 // function addToCart(newItem)
 function addToCart(newItem) {
-	if( !isProduct(newItem) ) {
-		throw new Error('This is an invalid product. id should be number, name should be string and price should be number.')
+	if (typeof newItem.id !== 'number') {
+		throw new Error('This is an invalid product. id should be number.')
+	} else if (typeof newItem.name !== 'string') {
+		throw new Error('This is an invalid product. Name should be string.')
+	} else if (typeof newItem.price !== 'number') {
+		throw new Error('This is an invalid product. price should be number.')
 	}
+
 
 	// const cartItem = { id: idCounter++, amount: 1, item: newItem }
 	// cart.push(cartItem)

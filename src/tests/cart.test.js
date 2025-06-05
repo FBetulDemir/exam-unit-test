@@ -28,13 +28,31 @@ describe('Cart', () => {
       		});
 		})
 		
-		test('Throws an error message if the product is invalid.', () => {
+		test('Throws an error message if the product id is invalid.', () => {
 			const newProduct = {
 				id: 'not a number, it is a string',
-				name: 1234,
-				price: 'hej',
+				name: "Barn pool",
+				price: 20,
 			}
-			expect(()=> addToCart(newProduct)).toThrow('This is an invalid product. id should be number, name should be string and price should be number.')
+			expect(()=> addToCart(newProduct)).toThrow('This is an invalid product. id should be number.')
+		})
+
+		test('Throws an error message if the product name is invalid.', () => {
+			const newProductTwo = {
+				id: 2015,
+				name: 1234,
+				price: 20,
+			}
+			expect(()=> addToCart(newProductTwo)).toThrow('This is an invalid product. Name should be string.')
+		})
+
+		test('Throws an error message if the product price is invalid.', () => {
+			const newProductThree = {
+				id: 2015,
+				name: "Barn pool",
+				price: "another string",
+			}
+			expect(()=> addToCart(newProductThree)).toThrow('This is an invalid product. price should be number.')
 		})
 	})
 
